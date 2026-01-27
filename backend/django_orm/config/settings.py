@@ -53,8 +53,8 @@ ALLOWED_HOSTS = [
     "0.0.0.0",
     "django",
     ".ngrok-free.dev",  # dev-only public tunnel
+    "16.176.161.31",   # EC2 public IP
 ]
-
 
 # =============================================================================
 # Installed Applications
