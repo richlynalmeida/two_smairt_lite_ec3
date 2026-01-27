@@ -141,28 +141,35 @@ TEMPLATES = [
 # Primary DB is schema-based (project-per-schema).
 # Secondary DB used by Mayan EDMS.
 # =============================================================================
+#
+# DATABASES = {
+#     "default": dj_database_url.config(
+#         default="postgres://smairt_user:smairt_pass@postgres:5432/prj00002_db_dev",
+#         conn_max_age=600,
+#     ),
+#     "mayan": {
+#         "ENGINE": "django.db.backends.postgresql",
+#         "NAME": os.getenv("MAYAN_DATABASE_NAME"),
+#         "USER": os.getenv("MAYAN_DATABASE_USER"),
+#         "PASSWORD": os.getenv("MAYAN_DATABASE_PASSWORD"),
+#         "HOST": os.getenv("MAYAN_DATABASE_HOST"),
+#         "PORT": os.getenv("MAYAN_DATABASE_PORT", 5432),
+#         "OPTIONS": {"options": "-c search_path=public"},
+#     },
+# }
+#
+# # Project schema first, then public fallback
+# DATABASES["default"]["OPTIONS"] = {
+#     "options": "-c search_path=prj00002,public"
+# }
+
 
 DATABASES = {
     "default": dj_database_url.config(
-        default="postgres://smairt_user:smairt_pass@postgres:5432/prj00002_db_dev",
+        default="postgres://smairt_user:smairt_pass@localhost:5432/smairt_lite",
         conn_max_age=600,
-    ),
-    "mayan": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": os.getenv("MAYAN_DATABASE_NAME"),
-        "USER": os.getenv("MAYAN_DATABASE_USER"),
-        "PASSWORD": os.getenv("MAYAN_DATABASE_PASSWORD"),
-        "HOST": os.getenv("MAYAN_DATABASE_HOST"),
-        "PORT": os.getenv("MAYAN_DATABASE_PORT", 5432),
-        "OPTIONS": {"options": "-c search_path=public"},
-    },
+    )
 }
-
-# Project schema first, then public fallback
-DATABASES["default"]["OPTIONS"] = {
-    "options": "-c search_path=prj00002,public"
-}
-
 
 # =============================================================================
 # Auth & Internationalisation
@@ -194,7 +201,12 @@ STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 # Async / Background
 # =============================================================================
 
-CELERY_BROKER_URL = "redis://redis:6379/2"
+# CELERY_BROKER_URL = "redis://redis:6379/2"
+
+CELERY_BROKER_URL = os.getenv(
+    "CELERY_BROKER_URL",
+    "redis://localhost:6379/2",
+)
 
 
 # =============================================================================
