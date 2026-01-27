@@ -1,0 +1,21 @@
+# Python
+__pycache__/
+*.pyc
+
+# Virtual environments
+venv/
+
+# Secrets
+.env
+.env.*
+
+# IDE
+.idea/
+
+# Django
+db.sqlite3
+staticfiles/
+
+# Docker (Lite is non-docker-first)
+docker-compose.yml
+Dockerfile*

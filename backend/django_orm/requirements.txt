@@ -1,0 +1,33 @@
+# ─────────────────────────────────────────────
+# Core Runtime
+# ─────────────────────────────────────────────
+django                              # Web framework (source of truth)
+gunicorn                            # Production WSGI server
+whitenoise>=6.6.0                   # Static file serving (no nginx needed)
+
+# ─────────────────────────────────────────────
+# Database
+# ─────────────────────────────────────────────
+psycopg[binary]>=3.1.9              # PostgreSQL driver (psycopg v3, binary build)
+dj-database-url                     # Parse DATABASE_URL into Django settings
+
+# ─────────────────────────────────────────────
+# Async / Background Tasks
+# ─────────────────────────────────────────────
+celery                              # Background job processing
+redis                               # Celery broker / cache
+
+# ─────────────────────────────────────────────
+# Django Extensions
+# ─────────────────────────────────────────────
+django-simple-history               # Model change history / auditing
+django-money                        # Money & currency fields
+django-htmx                         # HTMX support for progressive UI
+django-cors-headers                 # CORS support (Emergent / React frontend)
+
+# ─────────────────────────────────────────────
+# Configuration & Utilities
+# ─────────────────────────────────────────────
+python-dotenv                       # Environment variable loading
+PyYAML                              # YAML parsing (configs, metadata)
+ipython                             # Improved Django shell / REPL
