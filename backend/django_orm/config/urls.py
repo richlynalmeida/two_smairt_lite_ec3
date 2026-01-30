@@ -10,6 +10,8 @@ urlpatterns = [
     # API Contracts (temporary Django host)
     # ─────────────────────────────────────────────
     path("api/v1/", include("utils.contract.v1.urls")),
+    # path("api/demo/", include("demo_api.urls")),
+    path("api/", include("demo_api.urls")),
 ]
 
 if settings.DEBUG:
