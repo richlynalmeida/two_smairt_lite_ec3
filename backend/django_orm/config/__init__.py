@@ -1,1 +1,0 @@
-# makes config a package
