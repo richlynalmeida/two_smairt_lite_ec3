@@ -1,0 +1,8 @@
+
+from .InspectionTemplate_admin import InspectionTemplateAdmin
+from .InspectionTemplateVersion_admin import InspectionTemplateVersionAdmin
+from .InspectionTemplateItem_admin import InspectionTemplateAdmin
+from .Inspection_admin import InspectionAdmin
+from .InspectionItemResult_admin import InspectionItemResultAdmin
+from .InspectionEvidence_admin import InspectionEvidenceAdmin
+from .PunchItem_admin import PunchItemAdmin

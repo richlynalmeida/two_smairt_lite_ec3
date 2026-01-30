@@ -1,0 +1,36 @@
+/* static/admin/css/custom_admin.css */
+
+/* Sticky sidebar layout */
+#content {
+    margin-left: 240px; /* adjust if needed */
+}
+
+#nav-sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    overflow-y: auto;
+    background-color: #f8f9fa; /* improve contrast */
+    z-index: 1000;
+    padding-right: 8px;
+}
+
+/* Collapsible group section styles */
+.app-group {
+    margin-bottom: 1em;
+    border-left: 3px solid #ccc;
+    padding-left: 0.5em;
+}
+
+.app-group h2 {
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    user-select: none;
+    margin-bottom: 5px;
+}
+
+.app-group.collapsed ul {
+    display: none;
+}
