@@ -1,5 +1,4 @@
 from django.db import models
-# from django.core.validators import MinValueValidator, MaxValueValidator
 from utils.mixins import MixinsModel
 
 
@@ -13,6 +12,7 @@ class ProjectAsset(MixinsModel):
     project_id = models.CharField(
         max_length=5,
         db_column='project_id',
+        # related_name='project_j_pa',
         verbose_name='Project ID'
     )
 
@@ -28,38 +28,96 @@ class ProjectAsset(MixinsModel):
         verbose_name='Asset Title'
     )
 
-    asset_role_code = models.CharField(
-        max_length=32,
-        db_column='asset_role_code',
-        verbose_name='Asset Role Code',
-        help_text='E.g. COMM, INSPECT, OPERATE'
+    # Discipline is used ONLY for filtering and slicing in C&C
+    DISCIPLINE_CHOICES = [
+        ('ELEC', 'Electrical'),
+        ('MECH', 'Mechanical'),
+        ('INST', 'Instrumentation'),
+        ('CIVIL', 'Civil'),
+    ]
+
+    discipline_code = models.CharField(
+        max_length=16,
+        choices=DISCIPLINE_CHOICES,
+        db_column='discipline_code',
+        verbose_name='Discipline',
     )
 
-    ASSET_ORIGIN_CHOICES = [
-        ('QUANTUM', 'From Quantum'),
-        ('DIRECT', 'Direct / Discovery'),
+    # Only energized assets are tracked for C&C
+    ASSET_TYPE_CHOICES = [
+        ('CABLE', 'Cable'),
+        ('EQUIP', 'Equipment'),
+        ('INSTR', 'Instrument'),
     ]
+
+    asset_type_code = models.CharField(
+        max_length=16,
+        choices=ASSET_TYPE_CHOICES,
+        db_column='asset_type_code',
+        verbose_name='Asset Type',
+        help_text='Only energized assets are included for C&C.',
+    )
+
+    # Asset role defines WHY the asset exists in the system
+    # Fixed to COMMISSIONING for EC3 / SA Power rollout
+    ASSET_ROLE_CHOICES = [
+        ('COMM', 'Commissioning'),
+    ]
+
+    asset_role_code = models.CharField(
+        max_length=32,
+        choices=ASSET_ROLE_CHOICES,
+        default='COMM',
+        db_column='asset_role_code',
+        verbose_name='Asset Role Code',
+        help_text='Lifecycle role of the asset. Fixed to COMM for this rollout.',
+        editable=False
+    )
+
+    # Asset origin indicates how the asset was introduced into the system
+    # Fixed to IMPORT for EC3 / SA Power rollout
+    ASSET_ORIGIN_CHOICES = [
+        ('IMPORT', 'Imported'),
+    ]
+
     asset_origin = models.CharField(
         max_length=16,
         choices=ASSET_ORIGIN_CHOICES,
-        default='QUANTUM',
+        default='IMPORT',
         db_column='asset_origin',
-        verbose_name='Asset Origin'
+        verbose_name='Asset Origin',
+        help_text='Origin of the asset record. Fixed to IMPORT for this rollout.',
+        editable=False
     )
 
+    # Asset status reflects high-level C&C state only
+    # Detailed progress is derived from activities and punches
     ASSET_STATUS_CHOICES = [
-        ('PLANNED', 'Planned'),
-        ('INSTALLED', 'Installed'),
-        ('UNDER_TEST', 'Under Test'),
-        ('COMPLETED', 'Completed'),
+        ('IDENTIFIED', 'Identified'),
+        ('IN_PROGRESS', 'In Progress'),
         ('ACCEPTED', 'Accepted'),
     ]
+
     asset_status = models.CharField(
-        max_length=16,
+        max_length=32,
         choices=ASSET_STATUS_CHOICES,
-        default='PLANNED',
+        default='IDENTIFIED',
         db_column='asset_status',
-        verbose_name='Asset Status'
+        verbose_name='Asset Status',
+        help_text='High-level commissioning status (C&C only).'
+    )
+
+    # Reference-only payload captured from external registers (e.g. IS Asset Register).
+    # NOTE:
+    # - Read-only by convention
+    # - Not used for filtering, workflows, or C&C logic
+    # - Stored purely as contextual reference
+    source_reference = models.JSONField(
+        db_column='source_reference',
+        verbose_name='Source Reference (Read-Only)',
+        blank=True,
+        null=True,
+        help_text='Original imported asset register data for reference only.'
     )
 
     comments = models.CharField(

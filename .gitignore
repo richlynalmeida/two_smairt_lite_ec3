@@ -1,21 +1,59 @@
+# =========================
 # Python
+# =========================
 __pycache__/
-*.pyc
+*.py[cod]
+*.log
 
+# =========================
 # Virtual environments
+# =========================
 venv/
-
-# Secrets
 .env
 .env.*
 
-# IDE
-.idea/
+# =========================
+# Secrets / keys
+# =========================
+*.pem
+*.key
+*.crt
+*.cert
 
+# =========================
 # Django
+# =========================
 db.sqlite3
+media/
 staticfiles/
 
-# Docker (Lite is non-docker-first)
+# Migrations (keep init)
+**/migrations/*
+!**/migrations/__init__.py
+
+# =========================
+# VS Code / IDE
+# =========================
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+.idea/
+
+# =========================
+# Frontend / Node
+# =========================
+node_modules/
+dist/
+build/
+
+# =========================
+# OS noise
+# =========================
+.DS_Store
+Thumbs.db
+
+# =========================
+# Docker (explicitly ignored for now)
+# =========================
 docker-compose.yml
 Dockerfile*
